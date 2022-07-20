@@ -42,7 +42,25 @@ app.use(morganMiddleware);
 
 app.use(express.static(staticPath));
 
+//Express's error-handling middleware does not handle errors that are thrown with the
+//throw keyword, only when you call next with an argument
+
 //The 404 handler (ommited next since it's always the last fn in the middleware stack)
+app.use((err, req, res, next) => {
+  //Logs the error
+  console.error(err);
+  //Continues to the next error-handling middleware
+  next(err);
+});
+
+//In error handling we need an extra arg to specify the err
+app.use((err, req, res, next) => {
+  //Sets the status code to 500
+  res.status(500);
+  //Sends the error text
+  res.send('internal sever error');
+});
+
 app.use((req, res) => {
   //Set appropriate status code
   res.status(404);
