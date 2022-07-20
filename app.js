@@ -31,6 +31,17 @@ app.use((req, res, next) => {
   });
 });
 
+//The 404 handler (ommited next since it's always the last fn in the middleware stack)
+app.use((req, res) => {
+  //Set appropriate status code
+  res.status(404);
+  //Sends the error "File not found"
+  res.send('File not found!');
+});
+
+//Moving the error handler in another place of the app is recipe for failure.
+//The error handler should always be the last call on the middleware stack
+
 app.listen(3000, () => {
   console.log('App started on port 3000');
 });
