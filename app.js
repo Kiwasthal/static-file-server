@@ -1,16 +1,23 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const morgan = require('morgan');
+
+const morganMiddleware = morgan('short');
 
 const app = express();
 
 //Addin logger to the middleware stack
 
-app.use((req, res, next) => {
-  console.log(`Request IP: ${req.url}`);
-  console.log(`Request date: ${new Date()}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`Request IP: ${req.url}`);
+//   console.log(`Request date: ${new Date()}`);
+//   next();
+// });
+
+//Use morgan insead of custom logger
+
+app.use(morganMiddleware);
 
 //Adding stattic file middleware to the middleware stack
 
